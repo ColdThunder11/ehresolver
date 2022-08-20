@@ -128,7 +128,7 @@ def get_msg_from_bz_info(link: str, info: dict):
 @sv.on_keyword(("[中国翻訳]", "[Chinese]"))
 async def try_search_bz_info(bot, ev: CQEvent):
     try:
-        link = await get_bz_link(get_raw_msg(ev.raw_message))
+        link = await get_bz_link(get_raw_msg(ev.message.extract_plain_text().strip()))
         if not link:
             await bot.send(ev, "检测到了疑似本子但是没有在e站搜索到")
             return
@@ -141,7 +141,7 @@ async def try_search_bz_info(bot, ev: CQEvent):
 @sv.on_prefix(("https://exhentai.org", "https://e-hentai.org", "exhentai.org", "e-hentai.org"))
 async def try_reslove_bz(bot, ev: CQEvent):
     try:
-        info = await get_bz_info(ev.raw_message)
-        await bot.send(ev, get_msg_from_bz_info(ev.raw_message, info))
+        info = await get_bz_info(ev.message.extract_plain_text().strip())
+        await bot.send(ev, get_msg_from_bz_info(ev.message.extract_plain_text().strip(), info))
     except:
         return
